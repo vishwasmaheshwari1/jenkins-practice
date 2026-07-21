@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo maven-project > /tmp/.auth
+echo $BUILD_TAG >> /tmp/.auth
+echo $PASS >> /tmp/.auth
+
+scp -i /opt/prod /tmp/.auth remote_user@remote_host:/tmp/.auth
+scp -i /opt/prod ./jenkins/deploy/publish remote_user@remote_host:/tmp/publish
+ssh -i /opt/prod remote_user@remote_host "/tmp/publish"

@@ -1,0 +1,35 @@
+FROM remote-host:latest
+
+##################
+# Install Docker #
+##################
+USER root
+
+RUN dnf install -y python3-pip || yum install -y python3-pip
+
+
+# Fix outdated Debian/Ubuntu repository mirrors if the image is older
+#RUN sed -i 's|deb.debian.org/debian|archive.debian.org/debian|g' /etc/apt/sources.list || true \
+#    && sed -i 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list || true
+
+
+
+# Fix: Ensure standard Debian repositories are restored/used properly
+#RUN sed -i 's|archive.debian.org|deb.debian.org|g' /etc/apt/sources.list || true
+
+
+# Add Docker's official GPG key
+
+
+# 1. Install utilities and add the official Docker repository
+# 1. Install utilities and add the official Docker repository for DNF5
+RUN dnf install -y dnf-plugins-core && \
+    dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
+
+
+# 2. Clean the cache and install Docker Engine with Compose
+RUN dnf clean all && \
+    dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+
+

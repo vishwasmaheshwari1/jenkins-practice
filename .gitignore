@@ -1,0 +1,67 @@
+# Jenkins Runtime Data
+jenkins_home/
+*.log
+*.pid
+
+# Database files (but keep for practice reference)
+db_data/
+
+# Note: Credentials, keys, and .env files are tracked for learning purposes in this practice repo
+
+# Build artifacts
+target/
+build/
+*.jar
+*.war
+*.ear
+*.zip
+
+# Pipeline database and build outputs
+pipeline/db_data/
+pipeline/java-app/target/
+pipeline/*/target/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+
+# Maven
+.m2/
+*.classpath
+.project
+.settings/
+
+# (Git-related notes: .git/ is auto-excluded by git itself, .gitignore should always be tracked)
+
+# Temporary and log files
+*.tmp
+*.temp
+*.bak
+*.backup
+commands.txt
+# COMMANDS_LOG.md kept for learning reference
+
+# Node modules (if applicable)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Docker volumes
+volumes/
+
+# Sample/boilerplate projects
+simple-java-maven-app/
+/maven/
+
+# OS files
+.AppleDouble
+.LSOverride
+*.swp
+.vagrant/

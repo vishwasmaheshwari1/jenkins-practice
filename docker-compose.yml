@@ -1,0 +1,71 @@
+services:
+  jenkins:
+    container_name: jenkins
+ #  image: jenkins/jenkins
+ #  image: jenkins-ansible
+    image: jenkins/docker
+    build:
+      context: pipeline
+    ports:
+      - "8347:8080"
+    volumes:
+      - $PWD/jenkins_home:/var/jenkins_home
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - net
+  remote_host:
+    container_name: remote-host
+    image: remote-host
+    build:
+      context: fedora
+    volumes:
+      - "$PWD/fedora/copydbtos3.sh:/tmp/copydbtos3.sh"
+    networks:
+      - net
+  remote_host_with_docker:
+    container_name: remote-host-with-docker
+    image: remote-host-with-docker
+    build:
+      context: fedora
+      dockerfile: Dockerfile-v2
+    volumes:
+      - "$PWD/fedora/copydbtos3.sh:/tmp/copydbtos3.sh"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - net
+  db_host:
+    container_name: db_host
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=admin"
+    volumes:
+      - $PWD/db_data:/var/lib/mysql
+    networks:
+      - net
+  web:
+    container_name: web
+    image: ansible-web
+    build:
+      context: jenkins-ansible/web
+    ports:
+      - "80:80"
+    networks:
+      - net
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    hostname: 'gitlab.example.com'
+    ports:
+      - '8090:80'
+    volumes:
+      - /srv/gitlab/config:/etc/gitlab'
+      - /srv/gitlab/logs:/var/log/gitlab'
+      - /srv/gitlab/data:/var/opt/gitlab'
+    networks:
+      - net
+
+
+networks:
+  net:

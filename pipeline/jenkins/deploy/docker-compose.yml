@@ -1,0 +1,4 @@
+services:
+  maven_app:
+    image: "maven-project/$IMAGE:$TAG"
+    container_name: "maven_app"
